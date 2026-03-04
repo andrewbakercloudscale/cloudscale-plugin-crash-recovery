@@ -1,0 +1,427 @@
+/* ─────────────────────────────────────────────────────────────────
+   CloudScale Plugin Crash Recovery — Admin CSS
+   Matches the CloudScale plugin family aesthetic
+   ───────────────────────────────────────────────────────────────── */
+
+:root {
+    --pcr-dark:    #1a1f2e;
+    --pcr-darker:  #141824;
+    --pcr-accent:  #4a9eff;
+    --pcr-green:   #27ae60;
+    --pcr-red:     #e74c3c;
+    --pcr-amber:   #f39c12;
+    --pcr-blue:    #2980b9;
+    --pcr-border:  #dde1e8;
+    --pcr-bg:      #f4f6fa;
+    --pcr-card-bg: #ffffff;
+    --pcr-text:    #2c3345;
+    --pcr-muted:   #6b7690;
+    --pcr-radius:  8px;
+    --pcr-shadow:  0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* ── Wrap ── */
+.cs-pcr-wrap {
+    max-width: 1100px;
+    margin: 20px 20px 20px 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, sans-serif;
+    color: var(--pcr-text);
+}
+
+/* ── Header ── */
+.cs-pcr-header {
+    background: linear-gradient(135deg, var(--pcr-darker) 0%, var(--pcr-dark) 100%);
+    border-radius: var(--pcr-radius) var(--pcr-radius) 0 0;
+    padding: 22px 28px;
+    border-bottom: 3px solid var(--pcr-accent);
+}
+
+.cs-pcr-header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cs-pcr-header-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.cs-pcr-logo { font-size: 32px; line-height: 1; }
+
+.cs-pcr-header-title h1 {
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 2px;
+    padding: 0;
+    border: none;
+    line-height: 1.2;
+}
+
+.cs-pcr-header-title p {
+    color: rgba(255,255,255,0.65);
+    font-size: 12.5px;
+    margin: 0;
+}
+
+.cs-pcr-version {
+    background: rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.8);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+}
+
+/* ── Tabs ── */
+.cs-pcr-tabs {
+    display: flex;
+    background: var(--pcr-darker);
+    padding: 0 20px;
+    gap: 6px;
+    border-bottom: 3px solid var(--pcr-accent);
+}
+
+.cs-pcr-tab {
+    border: 2px solid rgba(255,255,255,0.15);
+    border-bottom: none;
+    color: #ffffff;
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 11px 24px;
+    cursor: pointer;
+    border-radius: 7px 7px 0 0;
+    transition: filter 0.15s;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    margin-bottom: -3px;
+    background: linear-gradient(135deg, #1a3a6e 0%, #1e4d9a 100%);
+}
+
+.cs-pcr-tab:nth-child(2) { background: linear-gradient(135deg, #4a0072 0%, #6a0080 100%); }
+.cs-pcr-tab:nth-child(3) { background: linear-gradient(135deg, #004d40 0%, #00695c 100%); }
+
+.cs-pcr-tab:hover { filter: brightness(1.2); }
+
+.cs-pcr-tab.active {
+    filter: brightness(1.15);
+    box-shadow: inset 0 3px 0 0 rgba(255,255,255,0.5);
+}
+
+/* ── Tab content ── */
+.cs-pcr-tab-content { display: none; padding: 24px 0 0; }
+.cs-pcr-tab-content.active { display: block; }
+
+/* ── Cards ── */
+.cs-pcr-card {
+    background: var(--pcr-card-bg);
+    border-radius: var(--pcr-radius);
+    box-shadow: var(--pcr-shadow);
+    border: 1px solid var(--pcr-border);
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.cs-pcr-card-header {
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 12px 18px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.cs-pcr-header-blue   { background: linear-gradient(135deg, #0d1b2a 0%, #1a2f4a 100%); border-bottom: 3px solid #4a9eff; }
+.cs-pcr-header-teal   { background: linear-gradient(135deg, #4a0072 0%, #6a0080 100%); border-bottom: 3px solid #ff6d00; }
+.cs-pcr-header-purple { background: linear-gradient(135deg, #bf360c 0%, #d84315 100%); border-bottom: 3px solid #00e5ff; }
+.cs-pcr-header-green  { background: linear-gradient(135deg, #006064 0%, #00838f 100%); border-bottom: 3px solid #ffd600; }
+
+.cs-pcr-card-body {
+    padding: 18px 20px;
+}
+
+.cs-pcr-card-body p {
+    margin: 0 0 14px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--pcr-text);
+}
+
+.cs-pcr-card-body p:last-child { margin-bottom: 0; }
+
+/* ── Buttons ── */
+.cs-pcr-button-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
+.cs-pcr-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 18px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    letter-spacing: 0.2px;
+    text-decoration: none;
+}
+
+.cs-pcr-btn:active { transform: translateY(1px); }
+
+.cs-pcr-btn-primary {
+    background: var(--pcr-accent);
+    color: #ffffff;
+}
+.cs-pcr-btn-primary:hover { background: #2f87f0; color: #fff; }
+
+.cs-pcr-btn-secondary {
+    background: #f5c518;
+    color: #1a1a1a;
+    border: 1px solid #d4a800;
+}
+.cs-pcr-btn-secondary:hover { background: #e6b800; color: #1a1a1a; }
+
+.cs-pcr-btn-explain {
+    font-size: 11px !important;
+    padding: 5px 14px !important;
+    background: rgba(255,255,255,0.15) !important;
+    color: #fff !important;
+    border: 1px solid rgba(255,255,255,0.45) !important;
+    border-radius: 5px !important;
+    cursor: pointer !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.3px !important;
+    margin-left: auto !important;
+}
+.cs-pcr-btn-explain:hover { background: rgba(255,255,255,0.25) !important; }
+
+/* ── Terminal ── */
+.cs-pcr-terminal-wrap { padding: 0; }
+
+.cs-pcr-terminal-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 14px;
+    background: #0d1b2a;
+    border-bottom: 2px solid #00e5ff;
+    border-radius: var(--pcr-radius) var(--pcr-radius) 0 0;
+    font-family: "Fira Mono", "Consolas", monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.cs-pcr-terminal-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #00e5ff;
+    flex-shrink: 0;
+}
+
+.cs-pcr-terminal-label { color: #00e5ff; margin-left: 4px; }
+
+.cs-pcr-terminal {
+    background: #0f1117;
+    color: #e2e8f0;
+    font-family: "Fira Mono", "Consolas", "Courier New", monospace;
+    font-size: 12px;
+    line-height: 1.65;
+    padding: 18px 20px;
+    margin: 0;
+    max-height: 440px;
+    overflow-y: auto;
+    white-space: pre;
+    word-break: break-all;
+    border-radius: 0 0 var(--pcr-radius) var(--pcr-radius);
+    overflow-x: auto;
+}
+
+/* ── Compatibility checks table ── */
+.cs-pcr-checks-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    margin-top: 4px;
+}
+
+.cs-pcr-checks-table th {
+    text-align: left;
+    padding: 9px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--pcr-muted);
+    border-bottom: 2px solid var(--pcr-border);
+}
+
+.cs-pcr-checks-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--pcr-border);
+    vertical-align: top;
+}
+
+.cs-pcr-checks-table tr:last-child td { border-bottom: none; }
+
+.cs-pcr-checks-table tr:hover td { background: #f8f9fc; }
+
+/* ── Badges ── */
+.cs-pcr-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+}
+
+.cs-pcr-badge-green  { background: rgba(39,174,96,0.15);   color: var(--pcr-green); }
+.cs-pcr-badge-red    { background: rgba(231,76,60,0.12);    color: var(--pcr-red); }
+.cs-pcr-badge-amber  { background: rgba(243,156,18,0.15);   color: #b7770d; }
+.cs-pcr-badge-blue   { background: rgba(74,158,255,0.15);   color: var(--pcr-accent); }
+
+/* ── Status icons ── */
+.cs-pcr-status-icon {
+    font-size: 16px;
+    vertical-align: middle;
+    margin-right: 4px;
+}
+
+/* ── Summary banner ── */
+.cs-pcr-summary {
+    padding: 14px 18px;
+    border-radius: var(--pcr-radius);
+    font-size: 13.5px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cs-pcr-summary-pass { background: rgba(39,174,96,0.12); border-left: 4px solid var(--pcr-green); color: #1e6e3d; }
+.cs-pcr-summary-fail { background: rgba(231,76,60,0.1);   border-left: 4px solid var(--pcr-red);   color: #8b2318; }
+.cs-pcr-summary-warn { background: rgba(243,156,18,0.12); border-left: 4px solid var(--pcr-amber); color: #7a4f08; }
+
+/* ── Status table ── */
+.cs-pcr-status-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+}
+
+.cs-pcr-status-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--pcr-border);
+}
+
+.cs-pcr-status-table td:first-child {
+    font-weight: 600;
+    color: var(--pcr-muted);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    width: 40%;
+}
+
+.cs-pcr-status-table tr:last-child td { border-bottom: none; }
+
+/* ── Note ── */
+.cs-pcr-note {
+    font-size: 12px !important;
+    color: var(--pcr-muted) !important;
+    background: #f8f9fc;
+    border-left: 3px solid var(--pcr-amber);
+    padding: 8px 12px;
+    border-radius: 0 4px 4px 0;
+}
+
+/* ── Spinner ── */
+.cs-pcr-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(74,158,255,0.3);
+    border-top-color: var(--pcr-accent);
+    border-radius: 50%;
+    animation: cs-pcr-spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+}
+
+@keyframes cs-pcr-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ── Modal ── */
+.cs-pcr-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 99998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cs-pcr-modal {
+    background: #fff;
+    border-radius: 10px;
+    max-width: 520px;
+    width: 90%;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+    overflow: hidden;
+}
+
+.cs-pcr-modal-header {
+    background: linear-gradient(135deg, var(--pcr-darker) 0%, var(--pcr-dark) 100%);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    border-bottom: 3px solid var(--pcr-accent);
+}
+
+.cs-pcr-modal-close {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.7);
+    font-size: 22px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+}
+.cs-pcr-modal-close:hover { color: #fff; }
+
+.cs-pcr-modal-body {
+    padding: 20px 22px;
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: var(--pcr-text);
+}
+
+/* ── Log line colours ── */
+.cs-pcr-log-normal  { color: #e2e8f0; display: block; }
+.cs-pcr-log-success { color: #4ade80; display: block; font-weight: 600; }
+.cs-pcr-log-alert   { color: #fca5a5; display: block; font-weight: 600; }
+.cs-pcr-log-action  { color: #fbbf24; display: block; }

@@ -4,6 +4,8 @@
 
 A WordPress watchdog plugin that automatically detects when your site has crashed and rolls back the most recently modified plugin. Zero configuration. Install it, activate it, forget about it until it saves you.
 
+> Full write up: [You Just Uploaded a New Plugin and Your WordPress Site Just Crashed. Now What?](https://andrewbaker.ninja/2026/03/02/you-just-uploaded-a-new-plugin-and-your-wordpress-site-just-crashed-now-what/)
+
 ## The Problem
 
 You install or update a plugin and it white screens your site. WordPress is down. You cannot access the admin to deactivate the offending plugin. Your only options are SSH or FTP to manually delete the plugin files, or restore from a backup. If you are on shared hosting without shell access, you are stuck until your host responds to a support ticket.
