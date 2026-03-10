@@ -2,13 +2,13 @@
 /**
  * Plugin Name: CloudScale Crash Recovery
  * Description: System-cron-based watchdog that probes the site every minute. If a crash is detected, deactivates and deletes the most recently modified plugin (within 10 minutes). Includes compatibility checks to validate the instance supports system cron.
- * Version: 1.4.2
+ * Version: 1.4.7
  * Author: CloudScale
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-define( 'CS_PCR_VERSION', '1.4.2' );
+define( 'CS_PCR_VERSION', '1.4.7' );
 define( 'CS_PCR_PROBE_KEY',      'cs_pcr_probe' );
 define( 'CS_PCR_OK_BODY',        'CLOUDSCALE_OK' );
 define( 'CS_PCR_WINDOW_SECONDS', 600 );
@@ -28,6 +28,7 @@ add_action( 'wp_ajax_cs_pcr_run_checks',    'cs_pcr_ajax_run_checks' );
 add_action( 'wp_ajax_cs_pcr_get_logs',      'cs_pcr_ajax_get_logs' );
 add_action( 'wp_ajax_cs_pcr_enable_debug',  'cs_pcr_ajax_enable_debug' );
 add_action( 'wp_ajax_cs_pcr_disable_debug', 'cs_pcr_ajax_disable_debug' );
+add_action( 'wp_ajax_cs_pcr_check_config',  'cs_pcr_ajax_check_config' );
 add_action( 'cs_pcr_revert_debug_hook',     'cs_pcr_do_revert_debug' );
 
 // ---------------------------------------------------------------------------
@@ -391,7 +392,6 @@ function cs_pcr_ajax_enable_debug() {
 
     wp_send_json_success([
         'revert_at'      => $revert_at,
-        'revert_at_human'=> gmdate( 'Y-m-d H:i:s', $revert_at ) . ' UTC',
         'debug_log_path' => WP_CONTENT_DIR . '/debug.log',
     ]);
 }
@@ -420,6 +420,24 @@ function cs_pcr_ajax_disable_debug() {
     }
 
     wp_send_json_success([ 'message' => 'Debug mode disabled.' ]);
+}
+
+// ---------------------------------------------------------------------------
+// AJAX: live config check (writability — never cached)
+// ---------------------------------------------------------------------------
+
+function cs_pcr_ajax_check_config() {
+    check_ajax_referer( 'cs_pcr_checks', 'nonce' );
+    if ( ! current_user_can( 'manage_options' ) ) { wp_die( 'Forbidden' ); }
+
+    $path     = cs_pcr_get_wp_config_path();
+    $writable = $path && is_writable( $path );
+
+    wp_send_json_success([
+        'found'    => (bool) $path,
+        'writable' => $writable,
+        'path'     => $path ?: '',
+    ]);
 }
 
 // ---------------------------------------------------------------------------
@@ -939,7 +957,7 @@ exit 0</pre>
                             <?php if ( $debug_active ) : ?>
                                 <span class="cs-pcr-badge cs-pcr-badge-red cs-pcr-badge-lg">&#128308; DEBUG ACTIVE</span>
                                 <span class="cs-pcr-debug-countdown-label">Auto-reverts in <strong id="cs-pcr-countdown">...</strong></span>
-                                <span class="cs-pcr-debug-revert-time">at <?php echo esc_html( get_option( 'timezone_string' ) ? wp_date( 'H:i:s T', $debug_revert_at ) : gmdate( 'H:i:s', $debug_revert_at ) . ' UTC' ); ?></span>
+                                <span class="cs-pcr-debug-revert-time" id="cs-pcr-revert-time">at ...</span>
                             <?php else : ?>
                                 <span class="cs-pcr-badge cs-pcr-badge-green cs-pcr-badge-lg">&#128994; DEBUG OFF</span>
                                 <span class="cs-pcr-debug-countdown-label" style="color:#6b7690;">WordPress is running in normal mode</span>
@@ -956,11 +974,9 @@ exit 0</pre>
                             <?php endif; ?>
                         </div>
                     </div>
-                    <?php if ( ! $cfg_writable ) : ?>
-                        <p class="cs-pcr-note" style="margin-top:12px;">&#9888;&#65039; <strong>wp-config.php is not writable</strong> by the web process. Run: <code>sudo chmod 664 <?php echo esc_html( $cfg_path ?: ABSPATH . 'wp-config.php' ); ?></code></p>
-                    <?php endif; ?>
+                        <p id="cs-pcr-cfg-warn" class="cs-pcr-note" style="margin-top:12px;<?php echo $cfg_writable ? 'display:none;' : ''; ?>">&#9888;&#65039; <strong>wp-config.php is not writable</strong> by the web process.<br>If root owns the file: <code>sudo chown apache:apache <?php echo esc_html( $cfg_path ?: ABSPATH . 'wp-config.php' ); ?></code><br>If permissions are wrong: <code>sudo chmod 664 <?php echo esc_html( $cfg_path ?: ABSPATH . 'wp-config.php' ); ?></code><br>On managed hosts, contact your host to allow PHP to write wp-config.php.</p>
                     <table class="cs-pcr-status-table" style="margin-top:14px;">
-                        <tr><td>wp-config.php</td><td><code><?php echo esc_html( $cfg_path ?: 'Not found' ); ?></code> <?php echo $cfg_writable ? '<span class="cs-pcr-badge cs-pcr-badge-green">writable</span>' : '<span class="cs-pcr-badge cs-pcr-badge-red">not writable</span>'; ?></td></tr>
+                        <tr><td>wp-config.php</td><td><code><?php echo esc_html( $cfg_path ?: 'Not found' ); ?></code> <?php echo $cfg_writable ? '<span id="cs-pcr-cfg-badge" class="cs-pcr-badge cs-pcr-badge-green">writable</span>' : '<span id="cs-pcr-cfg-badge" class="cs-pcr-badge cs-pcr-badge-red">' . ( $cfg_path ? 'not writable' : 'Not found' ) . '</span>'; ?></td></tr>
                         <tr><td>debug.log path</td><td><code><?php echo esc_html( $debug_log_path ); ?></code> <span style="font-size:12px;color:#6b7690;"><?php echo esc_html( $debug_log_size ); ?></span></td></tr>
                         <tr><td>WP_DEBUG_DISPLAY</td><td><span class="cs-pcr-badge cs-pcr-badge-green">Always forced OFF</span> <span style="font-size:12px;color:#6b7690;">errors never shown on screen</span></td></tr>
                     </table>

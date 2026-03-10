@@ -1,15 +1,60 @@
-/* CloudScale Plugin Crash Recovery — Admin JS v1.4.2 */
+/* CloudScale Plugin Crash Recovery — Admin JS v1.4.7 */
 (function ($) {
     'use strict';
 
     // ── Tab switching ───────────────────────────────────────────────────────
-    $(document).on('click', '.cs-pcr-tab', function () {
-        var tab = $(this).data('tab');
+    function activateTab(tab) {
         $('.cs-pcr-tab').removeClass('active');
-        $(this).addClass('active');
+        $('.cs-pcr-tab[data-tab="' + tab + '"]').addClass('active');
         $('.cs-pcr-tab-content').removeClass('active');
         $('#cs-pcr-tab-' + tab).addClass('active');
+    }
 
+    $(document).on('click', '.cs-pcr-tab', function () {
+        var tab = $(this).data('tab');
+        activateTab(tab);
+        if (history.replaceState) {
+            history.replaceState(null, '', location.pathname + location.search + '#tab-' + tab);
+        }
+    });
+
+    // Restore active tab from hash on page load
+    (function () {
+        var hash = window.location.hash.replace('#tab-', '');
+        var valid = ['compatibility', 'cron', 'status', 'logs'];
+        if (hash && valid.indexOf(hash) !== -1) {
+            activateTab(hash);
+        }
+    }());
+
+    // ── Live config check ───────────────────────────────────────────────────
+    function csCheckConfig() {
+        $.post(CS_PCR.ajax_url, { action: 'cs_pcr_check_config', nonce: CS_PCR.nonce }, function (resp) {
+            if (!resp.success) { return; }
+            var writable = resp.data.found && resp.data.writable;
+            var $btn = $('#cs-pcr-enable-debug');
+            var $badge = $('#cs-pcr-cfg-badge');
+            var $warn = $('#cs-pcr-cfg-warn');
+            if (writable) {
+                $btn.prop('disabled', false).removeAttr('title');
+                $badge.removeClass('cs-pcr-badge-red').addClass('cs-pcr-badge-green').text('writable');
+                $warn.hide();
+            } else {
+                $btn.prop('disabled', true);
+                $badge.removeClass('cs-pcr-badge-green').addClass('cs-pcr-badge-red').text(resp.data.found ? 'not writable' : 'Not found');
+                $warn.show();
+            }
+        });
+    }
+
+    // Run check when Logs tab is activated
+    $(document).on('click', '.cs-pcr-tab[data-tab="logs"]', function () {
+        csCheckConfig();
+    });
+
+    // Also run on page load if logs tab is active via hash
+    $(function () {
+        if (window.location.hash === '#tab-logs') { csCheckConfig(); }
     });
 
     // ── Explain modal ───────────────────────────────────────────────────────
@@ -19,7 +64,7 @@
         var body  = $(this).data('body')  || '';
         $('#cs-pcr-modal-title').text(title);
         $('#cs-pcr-modal-body').text(body);
-        $('#cs-pcr-modal-overlay').fadeIn(150);
+        $('#cs-pcr-modal-overlay').css('display','flex').hide().fadeIn(150);
     });
 
     $(document).on('click', '#cs-pcr-modal-close, #cs-pcr-modal-overlay', function (e) {
@@ -162,7 +207,7 @@
             if (secs <= 0) {
                 $('#cs-pcr-countdown').text('reverting…');
                 clearInterval(countdownInterval);
-                setTimeout(function () { location.reload(); }, 3000);
+                setTimeout(function () { location.href = location.pathname + location.search + '#tab-logs'; }, 3000);
                 return;
             }
             var m = Math.floor(secs / 60);
@@ -174,7 +219,10 @@
     }
 
     if (parseInt(CS_PCR.debug_active, 10) === 1 && parseInt(CS_PCR.debug_revert_at, 10) > 0) {
-        startCountdown(parseInt(CS_PCR.debug_revert_at, 10));
+        var revertAt = parseInt(CS_PCR.debug_revert_at, 10);
+        var localTime = new Date(revertAt * 1000).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', second: '2-digit'});
+        $('#cs-pcr-revert-time').text('at ' + localTime);
+        startCountdown(revertAt);
     }
 
     // ── Enable debug ────────────────────────────────────────────────────────────────────
@@ -190,8 +238,9 @@
                 $btn.prop('disabled', false).text('&#9654; Enable Debug (30 min)');
                 return;
             }
-            showDebugMsg('success', '✅ Debug mode active. Auto-reverts at ' + resp.data.revert_at_human + '. Log: ' + resp.data.debug_log_path);
-            setTimeout(function () { location.reload(); }, 1800);
+            var localTime = new Date(resp.data.revert_at * 1000).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', second: '2-digit'});
+            showDebugMsg('success', '✅ Debug mode active. Auto-reverts at ' + localTime + '. Log: ' + resp.data.debug_log_path);
+            setTimeout(function () { location.href = location.pathname + location.search + '#tab-logs'; }, 1800);
         }).fail(function () {
             showDebugMsg('error', 'AJAX request failed.');
             $btn.prop('disabled', false).text('&#9654; Enable Debug (30 min)');
@@ -212,7 +261,7 @@
             }
             showDebugMsg('success', '✅ Debug mode disabled successfully.');
             if (countdownInterval) { clearInterval(countdownInterval); }
-            setTimeout(function () { location.reload(); }, 1500);
+            setTimeout(function () { location.href = location.pathname + location.search + '#tab-logs'; }, 1500);
         }).fail(function () {
             showDebugMsg('error', 'AJAX request failed.');
             $btn.prop('disabled', false).text('&#9209; Revert Debug Now');
