@@ -7,6 +7,8 @@
 *.zip
 node_modules/
 vendor/
+wp-config.php
+wp-content/uploads/
 # Local deploy tooling
 build.sh
 deploy-wordpress.sh
