@@ -22,12 +22,19 @@ CloudScale Crash Recovery is a lightweight watchdog plugin that probes your site
 
 == Changelog ==
 
-= 1.3.0 =
-* Added Logs & Debug tab: unified log viewer aggregating watchdog, WordPress debug.log, PHP error log, and Apache/Nginx logs filtered to the last 24 hours.
-* Added WordPress debug mode toggle: enables WP_DEBUG and WP_DEBUG_LOG for exactly 30 minutes with dual revert safety net (WP-Cron and system cron one-shot script).
-* Auto-countdown timer displayed while debug mode is active.
-* Filter log entries by source, severity level, and free-text search.
-* Auto-refresh log viewer every 30 seconds toggle.
+= 1.4.7 =
+* Fixed tab hash persistence — JS valid-tab list now matches actual data-tab values.
+* Fixed modal overlay dismiss on outside click.
+* Added live wp-config.php writability AJAX check on Logs tab activation.
+* Local time display for debug-mode revert uses browser toLocaleTimeString.
+* Asset versions now include file mtime for automatic Cloudflare cache-busting.
+
+= 1.4.2 =
+* Added unified Log Viewer tab aggregating watchdog, debug.log, PHP error log, Apache/Nginx logs.
+* Added WordPress debug-mode toggle (30-minute window, dual revert safety net).
+* Added auto-countdown timer while debug mode is active.
+* Added source/severity/text filters and auto-refresh toggle for log viewer.
+* Fixed debug-mode countdown calculation.
 
 = 1.2.0 =
-* Previous release.
+* Initial public release — system cron watchdog, compatibility checks, Status & Log tab.

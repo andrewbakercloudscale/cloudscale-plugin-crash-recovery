@@ -21,7 +21,7 @@
     // Restore active tab from hash on page load
     (function () {
         var hash = window.location.hash.replace('#tab-', '');
-        var valid = ['compatibility', 'cron', 'status', 'logs'];
+        var valid = ['checks', 'setup', 'status', 'logs'];
         if (hash && valid.indexOf(hash) !== -1) {
             activateTab(hash);
         }
