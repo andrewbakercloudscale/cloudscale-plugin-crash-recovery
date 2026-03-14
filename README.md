@@ -12,13 +12,13 @@ You install or update a plugin and it white screens your site. WordPress is down
 
 ## How It Works
 
-The plugin registers a WordPress Cron job that fires every 60 seconds. Each tick does the following:
+A system cron job runs the watchdog shell script (`/usr/local/bin/cs-crash-watchdog.sh`) every 60 seconds. Each run does the following:
 
 1. **Probe**: Sends an HTTP GET to a lightweight endpoint on your own site (`?cs_pcr_probe=1`). The endpoint returns `CLOUDSCALE_OK` with no cache headers.
 
-2. **Evaluate**: If the probe returns HTTP 200 with the expected body, your site is healthy. The tick exits and does nothing.
+2. **Evaluate**: If the probe returns HTTP 200 with the expected body, your site is healthy. The script exits and does nothing.
 
-3. **Recover**: If the probe fails (500 error, timeout, unexpected body, connection refused), the plugin identifies the most recently modified plugin file on disk. If that file was modified within the last 10 minutes (the recovery window), it deactivates and deletes that plugin.
+3. **Recover**: If the probe fails (500 error, timeout, unexpected body, connection refused), the watchdog script uses WP-CLI to identify the most recently modified plugin file on disk. If that file was modified within the last 10 minutes (the recovery window), it deactivates and deletes that plugin.
 
 The 10 minute window is critical. It means the watchdog only acts on plugins that were just installed, updated, or modified. It will never touch a plugin that has been sitting quietly on your server for days. If your site crashes for a reason unrelated to a recent plugin change (database failure, disk full, PHP upgrade), the watchdog sees no recently modified plugin and takes no action.
 
@@ -48,7 +48,7 @@ The `WINDOW_SECONDS` constant is set to 600 (10 minutes). Only plugins with a fi
 
 - WordPress 6.0 or higher
 - PHP 8.0 or higher
-- WordPress Cron must be functional (either visitor triggered or via system cron)
+- A system cron must be configured to run the watchdog script every minute (the plugin's admin panel includes a setup guide)
 
 ## Installation
 
@@ -58,14 +58,7 @@ The `WINDOW_SECONDS` constant is set to 600 (10 minutes). Only plugins with a fi
 
 Or download the release zip and install via **Plugins > Add New > Upload Plugin**.
 
-That is it. No settings. No configuration. The watchdog starts ticking immediately.
-
-### For Reliable Timing
-
-WordPress Cron only fires on page visits. On low traffic sites the watchdog may not tick for several minutes. For precise 60 second ticks, add a real system cron:
-```
-* * * * * curl -s https://yoursite.com/wp-cron.php?doing_wp_cron > /dev/null 2>&1
-```
+That is it. No settings. No configuration. Open the plugin's admin panel to complete the system cron setup — the Setup tab generates the correct cron entry for your server and confirms when it is active.
 
 ## How the Probe Works
 
