@@ -2,7 +2,7 @@
 
 ![WordPress](https://img.shields.io/badge/WordPress-6.0%2B-blue) ![PHP](https://img.shields.io/badge/PHP-8.0%2B-purple) ![License](https://img.shields.io/badge/License-GPLv2-green) ![Version](https://img.shields.io/badge/Version-1.0.0-orange)
 
-A WordPress watchdog plugin that automatically detects when your site has crashed and rolls back the most recently modified plugin. Zero configuration. Install it, activate it, forget about it until it saves you.
+A WordPress watchdog plugin that automatically detects when your site has crashed and rolls back the most recently modified plugin. A system cron probes every minute — no WordPress required to trigger recovery.
 
 > Full write up: [You Just Uploaded a New Plugin and Your WordPress Site Just Crashed. Now What?](https://andrewbaker.ninja/2026/03/02/you-just-uploaded-a-new-plugin-and-your-wordpress-site-just-crashed-now-what/)
 
