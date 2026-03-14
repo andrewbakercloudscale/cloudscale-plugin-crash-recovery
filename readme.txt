@@ -12,7 +12,7 @@ System-cron watchdog that detects site crashes and automatically deactivates the
 
 == Description ==
 
-CloudScale Crash Recovery is a lightweight watchdog plugin that probes your site every minute using a system cron job. If a crash is detected, it automatically deactivates and deletes the most recently modified plugin (within the last 10 minutes), restoring your site to a working state without manual intervention.
+CloudScale Crash Recovery is a lightweight watchdog plugin that automatically detects when your site has crashed and rolls back the most recently modified plugin. A system cron probes every minute — no WordPress required to trigger recovery. If a crash is detected, it deactivates and deletes the most recently modified plugin (within the last 10 minutes), restoring your site without manual intervention.
 
 == Installation ==
 
