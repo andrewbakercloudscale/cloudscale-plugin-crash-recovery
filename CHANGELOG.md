@@ -5,6 +5,18 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-03-16
+### Added
+- Custom 404 page: opt-in toggle (Settings tab) replaces the default WordPress 404 response with a self-contained branded page — no theme dependency.
+- 404 page displays the site logo (falls back to site icon), site name, and tagline for branded identity.
+- 404 Runner mini-game on the 404 page: canvas-based side-scroller (Space or tap to jump over 404 blocks), with high score tracking and increasing speed. Includes `roundRect` polyfill for Safari <15.4.
+- PHP CLI and curl binary path fallbacks for FPM environments where `PHP_BINARY` points to php-fpm and `which` returns empty due to restricted `PATH`.
+- Settings tab in admin UI with a toggle switch for the custom 404 feature.
+### Changed
+- 404 page background changed from dark navy to baby blue gradient.
+- Description text enlarged and bolded for better readability.
+- 404 page body changed from `overflow:hidden` to `overflow-x:hidden` so the page scrolls to reveal the game.
+
 ## [1.4.7] - 2026-03-13
 ### Fixed
 - Tab hash persistence: JS valid-tab list now matches actual `data-tab` attribute values (`checks`, `setup`).
