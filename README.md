@@ -1,6 +1,6 @@
 # WordPress Plugin Crash Recovery
 
-![WordPress](https://img.shields.io/badge/WordPress-6.0%2B-blue) ![PHP](https://img.shields.io/badge/PHP-8.0%2B-purple) ![License](https://img.shields.io/badge/License-GPLv2-green) ![Version](https://img.shields.io/badge/Version-1.0.0-orange)
+![WordPress](https://img.shields.io/badge/WordPress-6.0%2B-blue) ![PHP](https://img.shields.io/badge/PHP-8.0%2B-purple) ![License](https://img.shields.io/badge/License-GPLv2-green) ![Version](https://img.shields.io/badge/Version-1.4.7-orange)
 
 A WordPress watchdog plugin that automatically detects when your site has crashed and rolls back the most recently modified plugin. A system cron probes every minute — no WordPress required to trigger recovery. Completely free.
 
