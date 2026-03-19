@@ -12,6 +12,7 @@ helpLib.run({
     pluginDesc: 'A bad plugin update can take your entire site down in seconds — and if WordPress itself is broken, you cannot log in to fix it. CloudScale Crash Recovery watches your site from outside WordPress, detects crashes within minutes, and automatically rolls back the offending plugin before most visitors even notice. Completely free, no subscription, no premium tier.',
     pageTitle:  'CloudScale Crash Recovery: Online Help',
     pageSlug:   'crash-recovery-help',
+    downloadUrl: 'https://andrewninjawordpress.s3.af-south-1.amazonaws.com/cloudscale-plugin-crash-recovery.zip',
     adminUrl:   `${process.env.WP_BASE_URL}/wp-admin/tools.php?page=cloudscale-crash-recovery`,
 
     sections: [
